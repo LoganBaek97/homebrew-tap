@@ -1,8 +1,8 @@
 class ClaudePet < Formula
   desc "macOS desktop pet that reacts to Claude Code session state"
   homepage "https://github.com/LoganBaek97/claude-pet"
-  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "c737cb40db87366f382e91c116e66e41db2d94eae20aac517ad0a6d667f5f0f6"
+  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "f5d24a9a938aae768ed8e478a34ab84ebd740dddf37a0fb6dc51e34992ca6580"
   license "MIT"
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
@@ -12,6 +12,8 @@ class ClaudePet < Formula
   def install
     # 설치하는 기계에서 빌드하므로 유니버설이 필요 없다.
     ENV["CLAUDE_PET_UNIVERSAL"] = "0"
+    # Homebrew 가 이미 샌드박스 안에서 돌리므로 SwiftPM 이 샌드박스를 또 만들면 실패한다.
+    ENV["CLAUDE_PET_SWIFT_FLAGS"] = "--disable-sandbox"
     system "sh", "scripts/bundle.sh", "release"
     prefix.install "dist/ClaudePet.app"
 
