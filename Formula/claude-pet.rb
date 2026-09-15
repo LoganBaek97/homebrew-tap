@@ -6,7 +6,8 @@ class ClaudePet < Formula
   license "MIT"
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
-  depends_on xcode: ["15.0", :build]
+  # Xcode 는 필요 없다. Command Line Tools 의 Swift 툴체인과 macOS SDK 로 빌드된다.
+  # Homebrew 는 소스 빌드에 CLT 를 이미 요구하므로 따로 선언하지 않는다.
   depends_on macos: :sonoma
 
   def install
