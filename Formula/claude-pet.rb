@@ -7,7 +7,6 @@ class ClaudePet < Formula
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
   depends_on xcode: ["15.0", :build]
-  depends_on :macos
   depends_on macos: :sonoma
 
   def install
