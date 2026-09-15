@@ -1,8 +1,8 @@
 class ClaudePet < Formula
   desc "macOS desktop pet that reacts to Claude Code session state"
   homepage "https://github.com/LoganBaek97/claude-pet"
-  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "f5d24a9a938aae768ed8e478a34ab84ebd740dddf37a0fb6dc51e34992ca6580"
+  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "3e361c4a0c2e0a10c0a9a4a75bd498d7df2ddd12410a13440dfa74a2a2355e29"
   license "MIT"
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
