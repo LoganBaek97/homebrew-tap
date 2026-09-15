@@ -20,4 +20,8 @@ Homebrew 7 부터 서드파티 tap 은 신뢰를 먼저 밝혀야 읽힌다. tap
 brew install LoganBaek97/tap/claude-pet
 ```
 
+소스에서 빌드하므로 macOS 14 이상과 Command Line Tools 가 필요하다. Xcode 는 필요 없다.
+`Your Command Line Tools are too outdated` 오류가 나면 Command Line Tools 를 갱신한다.
+자세한 절차는 [claude-pet 의 요구 사항](https://github.com/LoganBaek97/claude-pet#요구-사항)에 있다.
+
 설치 후 안내(`caveats`)에 나오는 훅 설치와 `/Applications` 연결을 마저 한다.
