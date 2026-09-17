@@ -1,8 +1,8 @@
 class ClaudePet < Formula
-  desc "macOS desktop pet that reacts to Claude Code session state"
+  desc "macOS desktop pet that reacts to Claude Code and Codex session state"
   homepage "https://github.com/LoganBaek97/claude-pet"
-  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.1.5.tar.gz"
-  sha256 "05e8e8f656345a779558d17c4831a331ec52082d5c6b5d96e05acbdb36b11e71"
+  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "88b9edde279f90a4ea1aea420c191b64e1e28bebd98e01968cb54471f2e9d22e"
   license "MIT"
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
@@ -30,8 +30,12 @@ class ClaudePet < Formula
 
   def caveats
     <<~EOS
-      훅을 설치해야 펫이 세션 상태를 받는다. ~/.claude/settings.json 을 고치며 백업을 남긴다.
+      훅을 설치해야 펫이 세션 상태를 받는다. ~/.claude/settings.json 을 고치고, ~/.codex 가 있으면
+      ~/.codex/hooks.json 에도 건다. 둘 다 백업을 남긴다.
         claude-pet install-hooks
+
+      Codex 는 신뢰한 훅만 돌린다. codex 를 열고 /hooks 에서 claude-pet 항목을 신뢰한다.
+      Homebrew 는 앱 경로가 opt 로 고정돼 업그레이드해도 다시 승인할 필요가 없다.
 
       Finder·Spotlight 에서 앱을 열려면 /Applications 에 연결한다.
         ln -sfn #{opt_prefix}/ClaudePet.app /Applications/ClaudePet.app
