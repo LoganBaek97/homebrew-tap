@@ -1,0 +1,64 @@
+# brew tap-new 템플릿에서 왔다. 포뮬러를 고친 PR 마다 bottle 을 빌드해 아티팩트로 올린다.
+# bottle 을 tap 릴리스에 올리고 포뮬러에 붙이는 일은 publish.yml 이 한다.
+name: brew test-bot
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  test-bot:
+    strategy:
+      matrix:
+        # Homebrew 는 더 낮은 macOS 에서 만든 bottle 을 그 위 버전에도 쓴다. 그래서 지원 하한인
+        # Sonoma 에서 빌드한 arm64 bottle 하나로 Apple Silicon 전체를 덮는다.
+        # Intel 러너는 Sequoia 가 가장 낮다. Intel Sonoma 는 지금처럼 소스에서 빌드한다.
+        os: [ macos-14, macos-15-intel ]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
+
+      - name: Toolchain
+        run: |
+          xcode-select -p
+          swift --version
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-setup
+
+      - run: brew test-bot --only-tap-syntax
+
+      - run: brew test-bot --only-formulae
+        if: github.event_name == 'pull_request'
+
+      - name: Upload bottles as artifact
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: bottles_${{ matrix.os }}
+          path: '*.bottle.*'
