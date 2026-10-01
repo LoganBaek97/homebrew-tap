@@ -1,8 +1,8 @@
 class ClaudePet < Formula
   desc "macOS desktop pet that reacts to Claude Code and Codex session state"
   homepage "https://github.com/LoganBaek97/claude-pet"
-  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.3.1.tar.gz"
-  sha256 "f404119656649d4300acd0a1626dd931caae248318608e64b42348d900938f58"
+  url "https://github.com/LoganBaek97/claude-pet/archive/refs/tags/v0.4.0.tar.gz"
+  sha256 "ab585b45124a5fc41a58db9d7e14793e76a0e8ebb718192fbb7b1276eb851160"
   license "MIT"
   head "https://github.com/LoganBaek97/claude-pet.git", branch: "main"
 
@@ -51,5 +51,8 @@ class ClaudePet < Formula
 
   test do
     assert_match "훅:", shell_output("#{bin}/claude-pet status")
+    # bottle 을 부을 때 경로 치환이 번들 안 파일을 건드리면 ad-hoc 서명이 깨진다.
+    # 서명이 깨지면 로그인 항목(SMAppService)이 앱을 거부한다.
+    system "codesign", "--verify", "--deep", "--strict", prefix/"ClaudePet.app"
   end
 end
